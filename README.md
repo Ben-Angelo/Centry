@@ -1,4 +1,4 @@
-# Sentry transaction simulator
+# Centry transaction simulator
 
 A small, synthetic prototype that assesses simulated transactions, explains its risk signals, suggests a separate bank-policy action, and saves each assessment for history. It does not connect to banking systems or prove that coercion occurred. Suggested actions are advisory; high risk never automatically declines a transaction.
 
