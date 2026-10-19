@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f4f6f8">
+    <title>Sentry | Transaction simulator</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <header>
+      <div class="header-content">
+        <a class="brand" href="/">Sentry</a>
+        <div class="header-status">
+          <span class="tag">Transaction simulator</span>
+          <span id="backend-status" class="backend-status" data-status="checking" aria-live="polite">Checking backend…</span>
+        </div>
+      </div>
+    </header>
+    <main>
+      <section class="intro">
+        <h1>Transaction safety demo</h1>
+        <p>Submit a synthetic transaction to see its risk signals and suggested bank response.</p>
+      </section>
+
+      <section class="card">
+        <h2>Simulate a transaction</h2>
+        <p class="help">Choose an example or enter your own test values.</p>
+        <label for="example-select">Example</label>
+        <select id="example-select">
+          <option value="normal">Normal transaction</option>
+          <option value="anomalies">Unusual contextual signals</option>
+          <option value="high">High-risk example: ₦500,000 transfer</option>
+        </select>
+        <form id="transaction-form">
+          <div class="form-grid">
+            <label>Amount (₦)
+              <input name="amount" type="number" min="1" step="0.01" required>
+            </label>
+            <label>Usual transaction average (₦)
+              <input name="history_avg_amount" type="number" min="0" step="0.01">
+            </label>
+            <label>Device
+              <select name="device_trusted">
+                <option value="true">Familiar</option>
+                <option value="false">Unfamiliar</option>
+                <option value="">Not available</option>
+              </select>
+            </label>
+            <label>Transactions in the last hour
+              <input name="recent_transaction_count" type="number" min="0" step="1">
+            </label>
+            <label>New recipient?
+              <select name="new_payee">
+                <option value="false">No</option>
+                <option value="true">Yes</option>
+                <option value="">Not available</option>
+              </select>
+            </label>
+            <label>Failed attempts
+              <input name="failed_attempt_count" type="number" min="0" step="1" value="0">
+            </label>
+          </div>
+          <details class="location-fields">
+            <summary>Optional location details</summary>
+            <p class="help">Location is compared only when both coordinates are provided.</p>
+            <div class="form-grid">
+              <label>Current latitude
+                <input name="latitude" type="number" min="-90" max="90" step="any">
+              </label>
+              <label>Current longitude
+                <input name="longitude" type="number" min="-180" max="180" step="any">
+              </label>
+              <label>Usual latitude
+                <input name="usual_latitude" type="number" min="-90" max="90" step="any">
+              </label>
+              <label>Usual longitude
+                <input name="usual_longitude" type="number" min="-180" max="180" step="any">
+              </label>
+            </div>
+          </details>
+          <button id="simulate-button" type="submit">Assess transaction</button>
+          <p id="form-error" class="error" role="alert"></p>
+        </form>
+      </section>
+
+      <section id="result-section" class="card hidden" aria-live="polite">
+        <h2>Assessment</h2>
+        <div class="result-heading">
+          <p class="score-line"><strong id="risk-score">—</strong><span>/ 100</span></p>
+          <span id="risk-level" class="risk-badge">—</span>
+        </div>
+        <p id="suggested-action" class="action"></p>
+        <h3>Detected signals</h3>
+        <ul id="signals" class="signal-list"></ul>
+        <p id="assessment-notice" class="notice"></p>
+      </section>
+
+      <section class="card">
+        <div class="history-heading">
+          <div>
+            <h2>Transaction log</h2>
+            <p class="help">Saved assessments, newest first. Select a row to view its signals.</p>
+          </div>
+          <button id="refresh-button" class="button-secondary" type="button">Refresh</button>
+        </div>
+        <p id="history-error" class="error" role="alert"></p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Time</th><th>Transaction</th><th>Amount</th><th>Score</th><th>Risk</th><th>Suggested action</th><th></th></tr></thead>
+            <tbody id="history-body"><tr><td colspan="7">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <p class="disclaimer">All examples are synthetic. Risk signals are reasons for further assessment, not proof of coercion. The bank retains control of authorization.</p>
+    </main>
+    <footer><a href="/docs" target="_blank" rel="noreferrer">API documentation</a></footer>
+    <script src="/static/app.js"></script>
+  </body>
+</html>

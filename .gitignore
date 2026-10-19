@@ -1,0 +1,8 @@
+.env
+.venv/
+__pycache__/
+*.py[cod]
+sentry.db
+sentry.db-shm
+sentry.db-wal
+logs/
